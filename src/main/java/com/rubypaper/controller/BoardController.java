@@ -26,6 +26,12 @@ public class BoardController {
 		return "getBoardList";
 		
 	}
+	@GetMapping("/getBoard")
+	public String getBoard(Board board, Model model) {
+		model.addAttribute("board", boardService.getBoard(board));
+		return "getBoard";
+	}
+	
 	//method="get" 페이지를 불러올때
 	@GetMapping("/insertBoard")
 	public String insertBoardView() {

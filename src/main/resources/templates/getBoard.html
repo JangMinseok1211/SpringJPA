@@ -2,37 +2,46 @@
 <html lang="kr" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="utf-8">
-	<title>게시글 목록</title>
+	<title>게시글 상세</title>
 	<style>
 		th{
-			background-color: orange;
+			background-color: pink;
 		}	
 	</style>
 </head>
 <body>
  <center>
  	<h1>게시글 상세</h1>
- 	<table border="1" cellspacing="0"  cellpadding="0" align="center" width="700">
+ 	<form action="updateBoard" method="post">
+ 	<table border="1" cellspacing="0"  cellpadding="0" align="center">
+ 		<caption>정보입력하기</caption>
  		<tr>
- 			<th width=50>seq</th>
- 			<th width=100>title</th>
- 			<th width=100>writer</th>
- 			<th width=200>content</th>
- 			<th width=150>createDate</th>
- 			<th width=50>cnt</th>
+ 			<th width=50>제목</th>
+ 			<td><input th:value="${board.title}"></td>
  		</tr>
- 		<tr th:each="board:${boardList}">	
- 			<td th:text="${board.seq}"> </td>
- 			<td><a th:href="@{/getBoard(seq=${board.seq})}"
- 			 	   th:text="${board.title}"></a> </td>
- 			<td th:text="${board.writer}"> </td>
- 			<td th:text="${board.content}"> </td>
- 			<td th:text="${#dates.format(board.createDate, 'yyyy-MM-dd')}"> </td>
- 			<td th:text="${board.cnt}"> </td>		
+ 		<tr>
+ 			<th width=50>작성자</th>
+ 			<td><input th:text="${board.writer}"></td>
+ 		</tr>
+ 		<tr>
+ 			<th width=50 height=100>내용</th>
+ 			<td><textarea th:text="${board.content}"></textarea></td>
+ 		</tr>
+ 		<tr>
+ 			<th width=70>등록일</th>
+ 			<td><input th:text="${#dates.format(board.createDate,'yyyyMM-dd')}"></td>
+ 		</tr>
+ 		<tr>
+ 			<th width=70>조회수</th>
+ 			<td><input th:value="${board.cnt}"></td>
+ 		</tr>
+ 		<tr>
+ 			<th colspan=2 align="center">
+ 			<input type="submit" value="수정하기"></th>
  		</tr>
  	</table>
+ 	</form>
  </center>
- <hr>
- <a th:href="@{/insertBoard}">새글등록</a>
+
 </body>
 </html>
