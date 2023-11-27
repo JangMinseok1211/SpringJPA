@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="kr" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<title>게시글 목록</title>
+	<style>
+		th{
+			background-color: orange;
+		}	
+	</style>
+</head>
+<body>
+ <center>
+ 	<h1>게시글 목록</h1>
+ 	<table border="1" cellspacing="0"  cellpadding="0" align="center" width="700">
+ 		<tr>
+ 			<th width=50>seq</th>
+ 			<th width=100>title</th>
+ 			<th width=100>writer</th>
+ 			<th width=200>content</th>
+ 			<th width=150>createDate</th>
+ 			<th width=50>cnt</th>
+ 		</tr>
+ 		<tr th:each="board:${boardList}">	
+ 			<td th:text="${board.seq}"> </td>
+ 			<td><a th:href="@{/getBoard(seq=${board.seq})}"
+ 			 	   th:text="${board.title}"></a> </td>
+ 			<td th:text="${board.writer}"> </td>
+ 			<td th:text="${board.content}"> </td>
+ 			<td th:text="${#dates.format(board.createDate, 'yyyy-MM-dd')}"> </td>
+ 			<td th:text="${board.cnt}"> </td>		
+ 		</tr>
+ 	</table>
+ </center>
+ <hr>
+ <a th:href="@{/insertBoard}">새글등록</a>
+</body>
+</html>

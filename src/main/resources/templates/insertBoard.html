@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="kr" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<title>게시글 등록</title>
+	<style>
+		th{
+			background-color: pink;
+		}	
+	</style>
+</head>
+<body>
+ <center>
+ 	<h1>게시글 등록</h1>
+ 	<form action="insertBoard" method="post" enctype="multipart/form-data">
+ 	<table border="1" cellspacing="0"  cellpadding="0" align="center">
+ 		<caption>정보입력하기</caption>
+ 		<tr>
+ 			<th width=50>제목</th>
+ 			<td><input type="text" name="title"></td>
+ 		</tr>
+ 		<tr>
+ 			<th width=50>작성자</th>
+ 			<td><input type="text" name="writer"></td>
+ 		</tr>
+ 		<tr>
+ 			<th width=50 height=100>내용</th>
+ 			<td><textarea name="content" cols=30 rows=7></textarea></td>
+ 		</tr>
+ 		<tr>
+ 			<th width=70>파일등록</th>
+ 			<td><input type="file" name="uploadFile"></td>
+ 		</tr>
+ 		<tr>
+ 			<th colspan=2 align="center">
+ 			<input type="submit" value="새글등록"></th>
+ 		</tr>
+ 	</table>
+ 	</form>
+ </center>
+ <hr>
+ <a th:href="@{/getBoardList}">글목록(list)</a>
+</body>
+</html>

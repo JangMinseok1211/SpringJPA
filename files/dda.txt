@@ -1,0 +1,161 @@
+package week06;
+
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+public class Calculator extends JFrame implements ActionListener {
+
+	JLabel lbl;
+	String[] strs= {"0",".","C","+","-","×","÷"};
+	JButton[] btns = new JButton[16];
+	JButton btnEq;
+	int init =1; //계산기 실행 초기상태면 1, 아니면 0
+	int init2=1; //. 의 입력을 한번으로 제한하기 위한 초기 변수
+	int op=0;
+	double temp1,temp2,result;
+	public Calculator() {
+	setTitle("계산기");	
+	setDefaultCloseOperation(EXIT_ON_CLOSE);
+	JPanel p = new JPanel(new GridLayout(4,4));
+			
+	lbl = new JLabel("0",JLabel.RIGHT);
+	lbl.setFont(new Font("맑은 고딕",Font.BOLD,30));
+	for(int i=0;i<btns.length;i++) {
+		btns[i]= new JButton(i+1+"");
+		if(i>8) {
+			btns[i]=new JButton(strs[i-9]);
+		}
+		btns[i].setFont(new Font("맑은 고딕",Font.BOLD,15));
+		p.add(btns[i]);
+		btns[i].addActionListener(this);
+	}
+	btnEq = new JButton("=");
+	btnEq.addActionListener(this);
+	add(lbl,"North");
+	add(p,"Center");
+	add(btnEq,"South");
+	
+	setBounds(1000,200,300,400);
+	setVisible(true);
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		String s = lbl.getText(); //"" 공백으로 초기화 해놓으면 누를때마다 초기화 되기 때문에 문자열들이 연결이 x
+		JButton eBtn = (JButton)e.getSource();
+//		0 키패드
+		if(eBtn == btns[9]) {
+			if(init==1) {
+				init=1;
+				lbl.setText("0");
+			}else {
+				s += "0";
+				lbl.setText(s);
+			}
+		}
+//		숫자 키패드
+		for(int j=0;j<=8;j++) {
+			if(eBtn == btns[j]) {
+				if(init==1) {
+					init=0;
+					lbl.setText((j+1)+"");
+				}else {
+					s += 1+j;
+					lbl.setText(s);
+				}
+			}
+		}
+//		.버튼
+		
+		
+		if(eBtn == btns[10]) {
+			if(init2==1) {	
+				if(init==1) {
+					init=0;
+					lbl.setText("0.");
+					
+				}
+				else {
+					s+=".";
+					lbl.setText(s);
+				}
+				init2=0;
+			}
+			
+		}
+//		clear버튼
+		if(eBtn == btns[11]) {
+			s="0";
+			lbl.setText(s);
+			init=1;
+			init2=1;
+		}
+//		사칙연산 버튼
+		if(eBtn == btns[12]) {
+			init =1;
+			init2=1;
+			op=1; //덧셈은 연산자1
+			temp1=Double.parseDouble(lbl.getText());
+		
+			
+		}
+		if(eBtn == btns[13]) {
+			init =1;
+			init2=1;
+			op=2; //뺄셈은 연산자2
+			temp1=Double.parseDouble(lbl.getText());
+		
+		}
+		if(eBtn == btns[14]) {
+			init =1;
+			init2=1;
+			op=3; //곱셈은 연산자3
+			temp1=Double.parseDouble(lbl.getText());
+			
+		
+		}
+		if(eBtn == btns[15]) {
+			init =1;
+			init2=1;
+			op=4; //나눗셈은 연산자4
+			temp1=Double.parseDouble(lbl.getText());
+			
+			
+		}
+		if(eBtn == btnEq) {
+			init=1;
+			init2=1;
+			temp2=Double.parseDouble(lbl.getText());
+			switch(op) {
+			case 1://+
+				result=temp1+temp2;
+				break;
+			case 2://-
+				result=temp1-temp2;
+				break;
+			case 3://*
+				result=temp1*temp2;
+				break;
+			case 4:// /
+				result=temp1/temp2;
+				break;
+			}
+			lbl.setText(result + "");
+		}
+		
+	}
+	
+
+	public static void main(String[] args) {
+		new Calculator();
+
+	}
+
+}
