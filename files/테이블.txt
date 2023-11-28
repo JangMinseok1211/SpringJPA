@@ -1,0 +1,104 @@
+CREATE TABLE User (
+    userID VARCHAR(64) PRIMARY KEY,
+    name VARCHAR(10) NOT NULL,
+    nickname VARCHAR(20),
+    email VARCHAR(255) UNIQUE NOT NULL,
+    gender CHAR(1),
+    birthYear CHAR(4),
+    phoneNumber CHAR(11),
+    writePermission BOOLEAN DEFAULT FALSE
+);
+
+CREATE TABLE Category (
+   categoryID INT AUTO_INCREMENT PRIMARY KEY,
+   categoryName varchar (255)
+);
+
+CREATE TABLE Post(
+   postId INT AUTO_INCREMENT PRIMARY key ,
+   writerId varchar (64),  
+   categoryId int ,   
+   title varchar (255),   
+   content text ,   
+   price decimal ,    
+   postDate timestamp default current_timestamp on update current_timestamp ,
+   salePeriod date ,
+   saleStatus boolean ,   
+   discountRate INT CHECK (discountRate BETWEEN 0 AND 100) DEFAULT 0 ,
+   foreign key(writerId) references User(userId)  on delete cascade  ,
+   foreign key(categoryId) references Category(categoryId)
+);
+
+CREATE TABLE Purchase (
+       purchaseID INT AUTO_INCREMENT PRIMARY KEY,
+       userID VARCHAR(64),
+      postID INT,
+     purchaseDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+     FOREIGN KEY (userID) REFERENCES User(userID),
+     FOREIGN Key(postId ) REFERENCES Post(postId)
+);
+
+CREATE TABLE Wishlist (
+  wishlistID INT AUTO_INCREMENT PRIMARY KEY,
+  userID VARCHAR(64), 
+  postID INT, 
+  FOREIGN KEY (userID) REFERENCES User(userID),
+  FOREIGN Key(postId ) REFERENCES Post(postId)
+);
+
+CREATE TABLE Inquiry (
+  inquiryID INT AUTO_INCREMENT PRIMARY KEY,
+  userID VARCHAR(64), 
+  content TEXT, 
+  inquiryDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, 
+  replyContent TEXT NULLABLE, 
+  replyDate TIMESTAMP NULLABLE,
+FOREIGN KEY (userID) REFERENCES User(userID)
+);
+
+
+-- Review table now refers to Purchase table ensuring that only those who have made a purchase can leave a review
+CREATE TABLE Review (
+ reviewID INT AUTO_INCREMENT PRIMARY KEY,
+ purchaseID INT NOT NULL UNIQUE REFERENCES Purchase(purchaseId),
+ content TEXT NOT NULL CHECK(length(content)>0), -- at least some content should be there in the review
+ rating FLOAT NOT NULL CHECK(rating BETWEEN 1.0 AND5.0 ), -- ratings are between one and five inclusive.
+ reviewDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+
+CREATE TABLE ContentImage (
+    imageId INT AUTO_INCREMENT PRIMARY KEY,
+    postId INT,
+    imageUrl TEXT,
+    uploadTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY(postId) REFERENCES Post(postId)
+);
+
+CREATE TABLE MainImage (
+    imageId INT AUTO_INCREMENT PRIMARY KEY,
+    postId INT,
+    imageUrl TEXT,
+    uploadTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY(postId) REFERENCES Post(postId)
+);
+
+create table Address(
+ addressid int auto_increment primary key ,
+ userid varchar (64),  
+ postcode varchar (5),   
+ streetAddress text not null check(length(streetAddress)>0 ),    
+ detailAddress text not null check(length(detailAddress)>0 ),    
+ foreign key(userid ) references user(userId )
+
+);
+
+
+
+create table Coupon(
+ couponid int auto_increment primary key ,
+ userid varchar (64),  
+ couponPeriod date   ,    
+ couponUsed boolean   ,     
+ foreign key(userid ) references user(userId )
+);

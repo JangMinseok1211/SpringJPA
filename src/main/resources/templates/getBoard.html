@@ -1,47 +1,50 @@
 <!DOCTYPE html>
 <html lang="kr" xmlns:th="http://www.thymeleaf.org">
 <head>
-	<meta charset="utf-8">
-	<title>게시글 상세</title>
-	<style>
-		th{
-			background-color: pink;
-		}	
-	</style>
+    <meta charset="UTF-8">   
+    <title>글상세(getBoard.html)</title>
+    <style>
+        tr td:first-child{
+            background-color: pink;
+            width: 80px;
+        }
+    </style>
 </head>
 <body>
- <center>
- 	<h1>게시글 상세</h1>
- 	<form action="updateBoard" method="post">
- 	<table border="1" cellspacing="0"  cellpadding="0" align="center">
- 		<caption>정보입력하기</caption>
- 		<tr>
- 			<th width=50>제목</th>
- 			<td><input th:value="${board.title}"></td>
- 		</tr>
- 		<tr>
- 			<th width=50>작성자</th>
- 			<td><input th:text="${board.writer}"></td>
- 		</tr>
- 		<tr>
- 			<th width=50 height=100>내용</th>
- 			<td><textarea th:text="${board.content}"></textarea></td>
- 		</tr>
- 		<tr>
- 			<th width=70>등록일</th>
- 			<td><input th:text="${#dates.format(board.createDate,'yyyyMM-dd')}"></td>
- 		</tr>
- 		<tr>
- 			<th width=70>조회수</th>
- 			<td><input th:value="${board.cnt}"></td>
- 		</tr>
- 		<tr>
- 			<th colspan=2 align="center">
- 			<input type="submit" value="수정하기"></th>
- 		</tr>
- 	</table>
- 	</form>
- </center>
-
-</body>
+    <center>
+        <h1>게시글 상세</h1>
+         <form action="updateBoard" method="post">
+		   <input name="seq" type ="hidden" th:value ="${board.seq}">
+          <table border="1"cellspacing=0 cellpadding= 0>
+            <tr>
+                <td>제목</td>
+                <td><input name="title" th:value="${board.title}"></td>
+            </tr>
+            <tr>
+                <td>작성자</td>
+                <td><input name="writer" th:value="${board.writer}"></td>
+            </tr>
+            <tr>
+                <td>내용</td>
+                <td><textarea name="content"cols="30" rows="10"
+                      th:text="${board.content}"></textarea></td>
+            </tr>
+           <tr>
+                <td>등록일</td>
+                <td name="createDate" th:text="${#dates.format(board.createDate,'yyyy-MM-dd')}"></td>
+            <tr>
+			<tr>
+                <td>조회수</td>
+                <td th:text="${board.cnt}"></td>
+			</tr>  
+			<tr>
+			<td colspan="2" align="center"><input type="submit" value ="수정하기"></td>
+			</tr>         
+          </table>
+        </form>
+       <a th:href="@{/insertBoard}">글등록  | </a>       
+       <a th:href="@{/deleteBoard(seq=${board.seq})}">삭제하기  | </a> 
+       <a th:href="@{/getBoardList}">글목록  </a>
+    </center>
+  </body>
 </html>
